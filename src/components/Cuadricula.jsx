@@ -1,6 +1,5 @@
 import { useState } from "react"
 import { useEffect } from "react"
-import axios from "axios"
 import "./Cuadricula.css"
 import Cripto from "./cripto/Cripto"
 
@@ -11,10 +10,10 @@ function Cuadricula() {
   const [criptos, setCriptos] = useState()  // para actualizar estados
 
   useEffect(() => {
-    axios.get(`${API_URL}assets`)   //o puede ser fetch, requiere json
-      //.then((resp) => resp.json())  //la respuesta recibida la convertira a un json
+    fetch(`${API_URL}assets`)   //o puede ser fetch, requiere json
+      .then((resp) => resp.json())  //la respuesta recibida la convertira a un json
       .then((data) => {
-        setCriptos(data.data.data)
+        setCriptos(data.data)
       })
       .catch(() => {console.error("La petición falló")})
   } , [])
