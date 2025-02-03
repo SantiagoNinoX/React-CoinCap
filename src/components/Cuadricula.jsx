@@ -1,22 +1,23 @@
-import { useState } from "react"
-import { useEffect } from "react"
 import "./Cuadricula.css"
 import Cripto from "./cripto/Cripto"
+import usePetition from "../hooks/usePetition"
+
 
 function Cuadricula() {
 
-  const API_URL = import.meta.env.VITE_API_URL  //peticion tipo GET
+  // const API_URL = import.meta.env.VITE_API_URL  //peticion tipo GET
 
-  const [criptos, setCriptos] = useState()  // para actualizar estados
+  // const [criptos, setCriptos] = useState()  // para actualizar estados
+  // useEffect(() => {
+  //   fetch(`${API_URL}assets`)   //o puede ser fetch, requiere json
+  //     .then((resp) => resp.json())  //la respuesta recibida la convertira a un json
+  //     .then((data) => {
+  //       setCriptos(data.data)
+  //     })
+  //     .catch(() => {console.error("La petición falló")})
+  // } , [])
 
-  useEffect(() => {
-    fetch(`${API_URL}assets`)   //o puede ser fetch, requiere json
-      .then((resp) => resp.json())  //la respuesta recibida la convertira a un json
-      .then((data) => {
-        setCriptos(data.data)
-      })
-      .catch(() => {console.error("La petición falló")})
-  } , [])
+  const [criptos] = usePetition(`assets`)
 
   if (!criptos) return <span> Cargando ... </span>
 
