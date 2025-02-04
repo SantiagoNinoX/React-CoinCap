@@ -1,8 +1,11 @@
 import { useState } from "react"
 import axios from "axios"
+import { Navigate, useNavigate } from "react-router-dom"
+import "./Login.css"
 
 const Login = () => {
     
+    const navigation = useNavigate()
     const [user, setUser] = useState({
         email: "",   //probar con: eve.holt@reqres.in
         password: ""   // cityslicka
@@ -14,12 +17,15 @@ const Login = () => {
         .then(data => {
             console.log(data)
             localStorage.setItem("tokenAcceso", data.data.token)
+            navigation("/")
         })   //nos devuelve un token: 'QpwL5tke4Pnpja7X4'
         .catch(e => console.error(e))
     }
 
+    if(localStorage.getItem("tokenAcceso")) return <Navigate to="/"/>
+
     return (
-        <div className="Login-container">
+        <div className="login-container">
             <h1>Iniciar sesión</h1>
             <form onSubmit={submit}>
                 <div className="field">
