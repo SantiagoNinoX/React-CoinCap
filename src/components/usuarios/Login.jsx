@@ -11,15 +11,25 @@ const Login = () => {
         password: ""   // cityslicka
     })
 
+    const [cargando, setCargando] = useState(false)
+    const [error, setError] = useState()
+
     const submit = (e) => {
         e.preventDefault()
+        setCargando(true)
+        setError(null)
         axios.post(`https://reqres.in/api/login`,user)
         .then(data => {
+            setCargando(false)
             console.log(data)
             localStorage.setItem("tokenAcceso", data.data.token)
             navigation("/")
         })   //nos devuelve un token: 'QpwL5tke4Pnpja7X4'
-        .catch(e => console.error(e))
+        .catch(e => {
+            console.error(e)
+            setCargando(false)
+            setError(e.response.data.error)
+        })
     }
 
     if(localStorage.getItem("tokenAcceso")) return <Navigate to="/"/>
@@ -47,9 +57,12 @@ const Login = () => {
                     }} type="password" name="password" />
                 </div>
                 <div className="submit">
-                    <input type="submit" value="Ingresar" />
+                    <input type="submit" value={cargando ? "cargando..." : "Ingresar"} className="link"/>
                 </div>
             </form>
+            {
+                error && <span className="error">Error: {error}</span>
+            }
         </div>
     )
 }
